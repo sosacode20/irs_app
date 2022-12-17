@@ -30,11 +30,11 @@ class DocTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
       ),
       elevation: 2.0,
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(10),
-        constraints: const BoxConstraints(
-          maxHeight: 100,
-        ),
+        // constraints: const BoxConstraints(
+        //   maxHeight: 100,
+        // ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -52,6 +52,7 @@ class DocTile extends StatelessWidget {
                 fontSize: 15,
                 overflow: TextOverflow.ellipsis,
               ),
+              maxLines: 2,
             ),
             const SizedBox(height: 5),
             Row(
