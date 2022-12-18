@@ -48,14 +48,18 @@ class IrsApi {
     }
   }
 
-  static Future<void> getCollections() async {
-    print('------------- Get Collections ------------');
+  /// This function returns a list of strings representing the collections
+  /// in the system
+  static Future<List<String>?> getCollections() async {
     var url = Uri.http(localHostUrl, getCollectionsUrl);
     var response = await http.get(url);
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-    // print(await http.read(Uri.https
-    print('-------------------------------------');
+    if (response.statusCode == 200) {
+      var collections = decodeJsonList(response.body);
+      print('Collections: $collections');
+    } else {
+      print('Error: ${response.body}');
+      return null;
+    }
   }
 
   static Future<String?> getSelectedModel() async {

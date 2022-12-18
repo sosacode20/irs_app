@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:irs_app/irs_app.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -26,5 +27,10 @@ void main() async {
     });
   }
 
-  runApp(IrsApp());
+  // runApp(IrsApp());
+  runApp(
+    const ProviderScope(
+      child: IrsApp(),
+    ),
+  );
 }

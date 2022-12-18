@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:irs_app/pages/base_page.dart';
-import 'package:irs_app/pages/pages.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:irs_app/providers/pages_providers.dart';
 
-class IrsPageView extends StatefulWidget {
-  const IrsPageView({super.key, required this.pages});
+class IrsPageView extends ConsumerStatefulWidget {
+  const IrsPageView({super.key});
 
-  final List<IrsBasePage> pages;
   @override
-  State<IrsPageView> createState() => _IrsPageViewState();
+  ConsumerState<IrsPageView> createState() => _IrsPageViewState();
 }
 
-class _IrsPageViewState extends State<IrsPageView> {
-  final PageController _pageController = PageController(initialPage: 0);
-
-  int _actualPageIndex = 0;
+class _IrsPageViewState extends ConsumerState<IrsPageView> {
+  // final PageController _pageController = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      controller: PageController(initialPage: _actualPageIndex),
+    // final pageIndex = ref.watch(pageIndexProvider);
+    final pages = ref.watch(pagesProvider);
+    final controller = ref.watch(pageControllerProvider);
+    return PageView.builder(
+      controller: controller,
+      // controller: PageController(initialPage: pageIndex),
       onPageChanged: (index) {
         setState(() {
-          _actualPageIndex = index;
+          ref.read(pageIndexProvider.notifier).state = index;
         });
       },
-      children: widget.pages.map((page) => page.page).toList(),
+      itemCount: pages.length,
+      itemBuilder: (context, index) {
+        return pages[index % pages.length].page;
+      },
     );
   }
 }
