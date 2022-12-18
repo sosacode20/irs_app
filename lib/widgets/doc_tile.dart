@@ -16,47 +16,50 @@ class DocTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
       elevation: 2.0,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10),
+        // constraints: const BoxConstraints(
+        //   maxHeight: 100,
+        // ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const Icon(Icons.book),
-                const SizedBox(width: 8),
-                Text(
-                  document.title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Text(
+              document.title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 5),
             Text(
               document.body,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 15,
+                overflow: TextOverflow.ellipsis,
               ),
+              maxLines: 2,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 5),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.folder),
-                const SizedBox(width: 8),
                 Text(
                   collectionName,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Spacer(),
                 Text(
                   ranking.toStringAsFixed(2),
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
