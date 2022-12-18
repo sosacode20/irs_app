@@ -1,15 +1,5 @@
 import 'package:flutter/material.dart';
-
-/// This class represents a Document in the IRS
-class Document {
-  const Document({
-    required this.title,
-    required this.body,
-  });
-
-  final String title;
-  final String body;
-}
+import 'package:irs_app/models/document.dart';
 
 class DocTile extends StatelessWidget {
   const DocTile({
