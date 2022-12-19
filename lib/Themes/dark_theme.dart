@@ -12,6 +12,7 @@ final darkTheme = ThemeData(
     titleTextStyle: TextStyle(color: Colors.white),
     systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
+  backgroundColor: Colors.grey[800],
   // iconTheme: const IconThemeData(color: Colors.orange),
   colorScheme: const ColorScheme.dark().copyWith(
     primary: Colors.orange,

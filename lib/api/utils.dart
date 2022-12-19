@@ -18,3 +18,17 @@ List<Document> decodeJsonDocuments(String json) {
       )
       .toList();
 }
+
+/// This class is a Wrapper to a Response which could return a different Object
+/// depending of the status code. This class *should* be used as return value
+/// of `Feature` that make an http request.
+class IrsResponse<T> {
+  /// This is the status code returned by an http request
+  final int statusCode;
+  final T object;
+
+  const IrsResponse({
+    required this.statusCode,
+    required this.object,
+  });
+}

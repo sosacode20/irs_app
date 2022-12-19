@@ -1,37 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:irs_app/models/document.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:irs_app/providers/api_provider.dart';
 import 'package:irs_app/widgets/doc_tile.dart';
 
-class SearchPage extends StatelessWidget {
+class SearchPage extends ConsumerWidget {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final results = ref.watch(getQueryResultsProvider);
     return Scaffold(
       body: Stack(
         children: [
           Container(
             decoration: BoxDecoration(
               color: Colors.grey[800],
+              // color: Theme.of(context).backgroundColor,
             ),
           ), // Background
           Column(
             children: [
               const SearchableBar(),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 100,
-                  itemBuilder: (_, index) {
-                    final Document document = Document(
-                        id: index,
-                        title: 'Doc $index',
-                        body: 'Lorem Ipsum blablabla');
-                    return DocTile(
-                        document: document,
-                        collectionName: 'cran',
-                        ranking: 0.32);
-                  },
+              results.when(
+                loading: () => const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
                 ),
+                error: (error, stackTrace) {
+                  print(
+                      'An Error has ocurred in the SearchPage builder when using the provider$error');
+                  return const Center(
+                    child: Text(
+                      'Error',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  );
+                },
+                data: (data) {
+                  switch (data.statusCode) {
+                    case 200:
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: data.object!.length,
+                          itemBuilder: (context, index) {
+                            final doc = data.object![index];
+                            return DocTile(
+                              document: doc,
+                              collectionName:
+                                  'cran', // TODO: Remove Handcrafting this
+                              ranking: 0.3,
+                            );
+                          },
+                        ),
+                      );
+                    default:
+                      return const Center(
+                        child: Text(
+                          'No Results',
+                          style: TextStyle(fontSize: 30),
+                        ),
+                      );
+                  }
+                },
               ),
             ],
           ),
@@ -41,13 +70,13 @@ class SearchPage extends StatelessWidget {
   }
 }
 
-class SearchableBar extends StatelessWidget {
+class SearchableBar extends ConsumerWidget {
   const SearchableBar({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: _getDecoration(),
       // height: MediaQuery.of(context).size.height * 0.2,
@@ -56,14 +85,14 @@ class SearchableBar extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: [
           _getHeader(),
-          _getTextField(),
+          _getTextField(ref),
         ],
       ),
     );
   }
 
   /// This returns the TextField that do the search
-  Align _getTextField() {
+  Align _getTextField(WidgetRef ref) {
     return Align(
       alignment: const Alignment(0, 0.6),
       child: Padding(
@@ -72,6 +101,10 @@ class SearchableBar extends StatelessWidget {
         ),
         child: TextField(
           keyboardType: TextInputType.text,
+          onSubmitted: (value) {
+            print(value);
+            ref.read(getQueryConfigurationProvider.notifier).changeQuery(value);
+          },
           decoration: InputDecoration(
             hintText: 'Search',
             hintStyle: const TextStyle(
@@ -125,7 +158,7 @@ class SearchableBar extends StatelessWidget {
     return const Align(
       alignment: Alignment(0, -0.7),
       child: Text(
-        'Findall',
+        'Findit',
         style: TextStyle(
           color: Colors.white,
           fontSize: 30,
