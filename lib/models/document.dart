@@ -9,11 +9,18 @@ class Document {
   /// The body of the document
   late final String body;
 
+  /// This is the name of the collection where the document is stored
+  // late final String collection;
+
+  /// This is
+  late final double ranking;
+
   /// Creates a new Document
   Document({
-    // required this.id,
+    required this.id,
     required this.title,
     required this.body,
+    // required this.collection,
   });
 
   /// Convert the Map representing the Document into a Document object
@@ -30,5 +37,9 @@ class Document {
       throw Exception('The body of the document is null');
     }
     body = json['body'] as String;
+    if (json['rank'] == null) {
+      throw Exception('The ranking of the document is null');
+    }
+    ranking = json['rank'] as double;
   }
 }

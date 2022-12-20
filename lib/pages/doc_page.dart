@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:irs_app/models/document.dart';
-import 'package:irs_app/resources/images.dart';
 
 class DocPage extends StatelessWidget {
   const DocPage({super.key});
