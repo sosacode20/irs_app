@@ -1,3 +1,2 @@
-export 'logs_page.dart';
-export 'search_page.dart';
-export 'settings_page.dart';
+export 'home_page.dart';
+export 'doc_page.dart';
