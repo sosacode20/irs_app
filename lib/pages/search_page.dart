@@ -93,6 +93,7 @@ class SearchableBar extends ConsumerWidget {
 
   /// This returns the TextField that do the search
   Align _getTextField(WidgetRef ref) {
+    final textVal = ref.watch(getQueryConfigurationProvider).query;
     return Align(
       alignment: const Alignment(0, 0.6),
       child: Padding(
@@ -100,6 +101,7 @@ class SearchableBar extends ConsumerWidget {
           horizontal: 20,
         ),
         child: TextField(
+          controller: TextEditingController(text: textVal),
           keyboardType: TextInputType.text,
           onSubmitted: (value) {
             print(value);
@@ -140,7 +142,7 @@ class SearchableBar extends ConsumerWidget {
         bottomRight: Radius.circular(20),
       ),
       image: const DecorationImage(
-        image: AssetImage('assets/image/cover.jpg'),
+        image: AssetImage('assets/images/cover.jpg'),
         fit: BoxFit.cover,
       ),
       boxShadow: [

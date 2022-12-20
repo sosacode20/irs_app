@@ -6,7 +6,7 @@ final darkTheme = ThemeData(
   // primarySwatch: Colors.orange,
   appBarTheme: const AppBarTheme(
     // color: Colors.,
-    backgroundColor: Colors.transparent,
+    // backgroundColor: Colors.transparent,
     foregroundColor: Colors.white,
     iconTheme: IconThemeData(color: Colors.white),
     titleTextStyle: TextStyle(color: Colors.white),
@@ -20,5 +20,32 @@ final darkTheme = ThemeData(
     onPrimary: Colors.white,
     onSecondary: Colors.white,
   ),
-  // useMaterial3: true,
+  textTheme: const TextTheme(
+    headline1: TextStyle(
+      fontFamily: 'PlayfairDisplay',
+      fontSize: 50,
+    ),
+    headline2: TextStyle(
+      fontFamily: 'PlayfairDisplay',
+      fontSize: 40,
+    ),
+    headline3: TextStyle(
+      fontFamily: 'PlayfairDisplay',
+      fontSize: 30,
+    ),
+  ),
+);
+
+final lightTheme = darkTheme.copyWith(
+  brightness: Brightness.light,
+  backgroundColor: Colors.white,
+  appBarTheme: darkTheme.appBarTheme.copyWith(
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
+  ),
+  colorScheme: darkTheme.colorScheme.copyWith(
+    primary: Colors.blueGrey,
+    secondary: Colors.orange,
+    onPrimary: Colors.black,
+    onSecondary: Colors.black,
+  ),
 );

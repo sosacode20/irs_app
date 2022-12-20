@@ -149,6 +149,6 @@ final getQueryResultsProvider =
     limit: queryConfiguration.docsPerPage,
     offset: queryConfiguration.pageNumber,
   );
-  // ref.keepAlive();
+  ref.keepAlive();
   return response;
 });

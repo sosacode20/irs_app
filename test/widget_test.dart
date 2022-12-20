@@ -9,5 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:irs_app/main.dart';
+import 'package:irs_app/api/api.dart' as irsApi;
 
-void main() {}
+void main() {
+  // irsApi.IrsApi.getModels();
+}

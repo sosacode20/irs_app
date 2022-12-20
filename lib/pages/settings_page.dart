@@ -61,7 +61,14 @@ class SettingsPage extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       width: MediaQuery.of(context).size.width * 0.8,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 115, 138, 139),
+        image: const DecorationImage(
+          image: AssetImage('assets/images/background2.jpg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Color.fromARGB(151, 0, 0, 0),
+            BlendMode.overlay,
+          ),
+        ),
         borderRadius: const BorderRadius.all(
           Radius.circular(30),
         ),
