@@ -27,6 +27,7 @@ class HomePageBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final docs = ref.watch(getQueryResultsProvider);
+    final modelCollInfo = ref.watch(getModelInfoProvider);
     return CustomScrollView(
       // controller: ScrollController(), // TODO: Add this to a provider
       slivers: [
@@ -59,9 +60,8 @@ class HomePageBody extends ConsumerWidget {
                       final doc = data.object![index];
                       return DocTile(
                         document: doc,
-                        collectionName:
-                            'cran', // TODO: Remove Handcrafting this
-                        ranking: 0.3,
+                        collectionName: modelCollInfo.selectedCollections[0],
+                        ranking: doc.ranking,
                       );
                     },
                     childCount: data.object!.length,
@@ -86,11 +86,11 @@ class HomePageBody extends ConsumerWidget {
             // color: Colors.red,
             child: NumberSelector(
               min: 0,
-              max: 100,
+              max: 10,
               current: 0,
               backgroundColor: Colors.transparent,
               iconColor: Colors.white,
-              onUpdate: (number) {},
+              onUpdate: (number) async {},
             ),
           ),
         ),
@@ -237,7 +237,14 @@ class _IrsDrawerState extends ConsumerState<IrsDrawer> {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              ref.read(getModelInfoProvider.notifier).allNew(
+                                    newInformation: ModelCollectionInformation(
+                                      modelName: selectedModel,
+                                      selectedCollections: [selectedCollection],
+                                    ),
+                                  );
+                            },
                             child: const Text(
                               'Update Settings',
                               style: normalFontStyle,

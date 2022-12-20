@@ -133,7 +133,7 @@ class ModelCollectionInformationNotifier
 }
 
 /// Do not use this provider directly, use the `getUpdatedModelConfigurationProvider`
-final getModelConfigurationProvider = StateNotifierProvider.autoDispose<
+final getModelInfoProvider = StateNotifierProvider.autoDispose<
     ModelCollectionInformationNotifier, ModelCollectionInformation>((ref) {
   // final models = ref.watch(getModelsProvider);
   // final collections = ref.watch(getCollectionsProvider);
@@ -144,7 +144,7 @@ final getModelConfigurationProvider = StateNotifierProvider.autoDispose<
 /// updated configuration of the Model and Collections is needed
 final getUpdatedModelCollectionInfoProvider =
     FutureProvider.autoDispose<ModelCollectionInformation>((ref) async {
-  final modelConfiguration = ref.watch(getModelConfigurationProvider);
+  final modelConfiguration = ref.watch(getModelInfoProvider);
   final allModels = await IrsApi.getModels();
   ref.keepAlive();
   final allCollections = await IrsApi.getCollections();
@@ -179,7 +179,7 @@ final getUpdatedModelCollectionInfoProvider =
     // If the post was successful then update the state
     if (response.statusCode == 200) {
       return ref
-          .watch(getModelConfigurationProvider.notifier)
+          .watch(getModelInfoProvider.notifier)
           .allNew(newInformation: newConfiguration);
     }
   }
@@ -188,7 +188,7 @@ final getUpdatedModelCollectionInfoProvider =
 
 final postModelConfigurationProvider =
     FutureProvider.autoDispose<IrsResponse<String?>>((ref) async {
-  final modelConfiguration = ref.watch(getModelConfigurationProvider);
+  final modelConfiguration = ref.watch(getModelInfoProvider);
   final response = await IrsApi.postSelectedModel(
       modelConfiguration.modelName, modelConfiguration.selectedCollections);
   // ref.keepAlive();
@@ -237,6 +237,8 @@ class QueryConfigurationNotifier extends StateNotifier<QueryConfiguration> {
     }
   }
 
+  // int get totalRetrievedDocuments => state..length;
+
   /// This change the number of docs per page
   void changeDocsPerPage(int docsPerPage) {
     if (state.docsPerPage != docsPerPage) {
@@ -260,7 +262,7 @@ final getQueryConfigurationProvider = StateNotifierProvider.autoDispose<
 final getQueryResultsProvider =
     FutureProvider.autoDispose<IrsResponse<List<Document>?>>((ref) async {
   final queryConfiguration = ref.watch(getQueryConfigurationProvider);
-  final modelCollInfo = ref.watch(getUpdatedModelCollectionInfoProvider);
+  ref.watch(getUpdatedModelCollectionInfoProvider);
   print('El query actual es: ${queryConfiguration.query}');
   final response = await IrsApi.makeQuery(
     query: queryConfiguration.query,
