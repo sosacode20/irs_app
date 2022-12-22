@@ -27,6 +27,7 @@ class _IrsDrawerState extends ConsumerState<IrsDrawer> {
       fontSize: 16,
       fontFamily: 'Lexend',
     );
+    final color = Colors.blueGrey[900];
 
     /// This is for obtaining the info relating with selected model, collection, etc
     final modelCollInfo = ref.watch(getUpdatedModelCollectionInfoProvider);
@@ -67,7 +68,28 @@ class _IrsDrawerState extends ConsumerState<IrsDrawer> {
                   child: _buildButton(normalFontStyle),
                 ),
                 SliverToBoxAdapter(
-                  child: _build_dropDown(normalFontStyle, data),
+                  child: DropdownButtonFormField<String>(
+                    dropdownColor: color,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Select Model',
+                      labelStyle: normalFontStyle,
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedModel = value!;
+                      });
+                    },
+                    value: selectedModel == '' ? data.modelName : selectedModel,
+                    items: data.allModels.map(
+                      (e) {
+                        return DropdownMenuItem<String>(
+                          value: e,
+                          child: Text(e),
+                        );
+                      },
+                    ).toList(),
+                  ),
                 ),
                 const SliverToBoxAdapter(
                   child: SizedBox(
@@ -75,44 +97,39 @@ class _IrsDrawerState extends ConsumerState<IrsDrawer> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: _build_dropDown(normalFontStyle, data),
+                  child: DropdownButtonFormField<String>(
+                    // dropdownColor: Colors.transparent,
+                    // Change the background color of the dropdown
+                    dropdownColor: color,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Select Collection',
+                      labelStyle: normalFontStyle,
+                    ),
+
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCollection = value!;
+                      });
+                    },
+                    value: selectedCollection == ''
+                        ? data.selectedCollections[0]
+                        : selectedCollection,
+                    items: data.allCollections.map(
+                      (e) {
+                        return DropdownMenuItem<String>(
+                          value: e,
+                          child: Text(e),
+                        );
+                      },
+                    ).toList(),
+                  ),
                 ),
               ],
             ),
           );
         },
       ),
-    );
-  }
-
-  DropdownButtonFormField<String> _build_dropDown(
-      TextStyle normalFontStyle, ModelCollectionInformation data) {
-    return DropdownButtonFormField<String>(
-      // dropdownColor: Colors.transparent,
-      // Change the background color of the dropdown
-      dropdownColor: Colors.blueGrey[900],
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        labelText: 'Select Collection',
-        labelStyle: normalFontStyle,
-      ),
-
-      onChanged: (value) {
-        setState(() {
-          selectedCollection = value!;
-        });
-      },
-      value: selectedCollection == ''
-          ? data.selectedCollections[0]
-          : selectedCollection,
-      items: data.allCollections.map(
-        (e) {
-          return DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          );
-        },
-      ).toList(),
     );
   }
 

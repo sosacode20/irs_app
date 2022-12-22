@@ -12,11 +12,14 @@ List<String> decodeJsonList(String json) {
 /// Decode a json string into a List of Documents.
 List<Document> decodeJsonDocuments(String json) {
   var list = jsonDecode(json) as List;
-  return list
-      .map(
-        (e) => Document.fromJson(e as Map<String, dynamic>),
-      )
+  var docList = list[0] as List;
+  return docList
+      .map((e) => Document.fromJson(e as Map<String, dynamic>))
       .toList();
+  // return list.map((e) => Document.fromJson(e as Map<String, dynamic>)).toList();
+  // return list[0].map(
+  //   (e) => Document.fromJson(e as Map<String, dynamic>),
+  // );
 }
 
 /// This class is a Wrapper to a Response which could return a different Object

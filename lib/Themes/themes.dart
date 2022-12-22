@@ -1,6 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+class IrsFontStyles {
+  static const TextStyle headline1 = TextStyle(
+    fontFamily: 'PlayfairDisplay',
+    fontSize: 50,
+  );
+  static const TextStyle headline2 = TextStyle(
+    fontFamily: 'PlayfairDisplay',
+    fontSize: 40,
+  );
+  static const TextStyle headline3 = TextStyle(
+    fontFamily: 'PlayfairDisplay',
+    fontSize: 30,
+  );
+  static const TextStyle headline4 = TextStyle(
+    fontFamily: 'Lexend',
+    fontSize: 20,
+  );
+  static const TextStyle normal = TextStyle(
+    fontFamily: 'Lexend',
+    fontSize: 16,
+  );
+}
+
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
   // primarySwatch: Colors.orange,

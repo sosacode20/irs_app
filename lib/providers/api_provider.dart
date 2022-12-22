@@ -4,29 +4,6 @@ import 'package:irs_app/api/api.dart';
 import 'package:irs_app/api/utils.dart';
 import 'package:irs_app/models/document.dart';
 
-/// This provider is used to fetch the Models from the API
-final getModelsProvider =
-    FutureProvider.autoDispose<IrsResponse<List<String>?>>((ref) async {
-  final response = await IrsApi.getModels();
-  ref.keepAlive();
-  return response;
-});
-
-/// This provider returns all the collections in the system
-final getCollectionsProvider =
-    FutureProvider.autoDispose<IrsResponse<List<String>?>>((ref) async {
-  final response = await IrsApi.getCollections();
-  ref.keepAlive();
-  return response;
-});
-
-final getSelectedModelProvider =
-    FutureProvider.autoDispose<IrsResponse<String?>>((ref) async {
-  final response = await IrsApi.getSelectedModel();
-  ref.keepAlive();
-  return response;
-});
-
 @immutable
 class ModelCollectionInformation {
   /// All the models in the system
@@ -77,7 +54,6 @@ class ModelCollectionInformation {
   }
 
   @override
-  // TODO: implement a better hashCode
   int get hashCode {
     return modelName.hashCode +
         selectedCollections.hashCode +
@@ -157,14 +133,17 @@ final getUpdatedModelCollectionInfoProvider =
       selectedModel = allModels.object!.first;
     }
     // If for any chance one of the selected collections do not exist in the list of collections
-    for (final collection in selectedCollections) {
-      if (!allCollections.object!.contains(collection)) {
-        selectedCollections.remove(collection);
-      }
-    }
+    // for (var collection in selectedCollections) {
+    //   if (!allCollections.object!.contains(collection)) {
+    //     selectedCollections.remove(collection);
+    //   }
+    // }
     // If for any chance the list of selected collections is empty then add the first collection
     if (selectedCollections.isEmpty) {
       selectedCollections.add(allCollections.object!.first);
+    }
+    if (selectedCollections[0] == "") {
+      selectedCollections[0] = allCollections.object!.first;
     }
     ModelCollectionInformation newConfiguration = ModelCollectionInformation(
       modelName: selectedModel,
@@ -208,7 +187,7 @@ class QueryConfiguration {
 
   const QueryConfiguration({
     this.query = '',
-    this.docsPerPage = 10,
+    this.docsPerPage = 50,
     this.pageNumber = 0,
   });
 
