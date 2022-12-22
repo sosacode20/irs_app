@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:irs_app/pages/erase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:irs_app/irs_app.dart';
 import 'package:window_manager/window_manager.dart';
-// import 'package:irs_app/pages/home_search_page.dart';
 
 void main() async {
   // Handling Windows Size
@@ -20,6 +19,7 @@ void main() async {
       titleBarStyle: TitleBarStyle.normal,
       minimumSize: Size(400, 600),
       maximumSize: Size(600, 1000),
+      title: 'Everything',
     );
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
@@ -27,18 +27,10 @@ void main() async {
     });
   }
 
-  runApp(const IrsApp());
-}
-
-class IrsApp extends StatelessWidget {
-  const IrsApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'IRS App',
-      debugShowCheckedModeBanner: false,
-      home: Erase(),
-    );
-  }
+  // runApp(IrsApp());
+  runApp(
+    const ProviderScope(
+      child: IrsApp(),
+    ),
+  );
 }
